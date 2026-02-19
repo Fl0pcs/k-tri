@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Viikingi pulmad — 8. august 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Blue & White theme */
+    --bg: #f4f9ff;         /* page background (match countdown/card background) */
+    --card: #f4f9ff;       /* card / panel background */
+    --fg: #05233a;         /* primary text (dark navy) */
+    --gold: #1e90ff;       /* accent blue (kept name for compatibility) */
+    --gold-dim: rgba(30,144,255,0.12); /* soft accent (translucent) */
+    --muted: #6b8ba6;      /* muted / secondary text */
+    --border: #e1e9f5;     /* subtle border */
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Cinzel', serif;
+    overflow-x: hidden;
+  }
+
+  /* Smooth in-page scrolling */
+  html { scroll-behavior: smooth; }
+
+  /* Header / nav */
+  .site-header {
+    position: fixed; inset: 0 0 auto 0; top: 0; left: 0; right: 0;
+    height: 64px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.56));
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .site-header-inner {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--fg);
+    letter-spacing: 0.06em;
+  }
+  .logo-img {
+    padding-top: 10px;
+    height: 250px;
+    max-height: 1000px;
+    width: auto;
+    display: block;
+  }
+  .nav-toggle {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    display: none;
+    cursor: pointer;
+  }
+  .site-nav {
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .site-nav a {
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 0.35rem;
+    transition: background 0.15s, color 0.15s;
+  }
+  .site-nav a:hover, .site-nav a:focus {
+    background: rgba(30,144,255,0.08);
+    color: var(--gold);
+  }
+  @media (max-width: 860px){
+    .site-nav { display: none; }
+    .nav-toggle { display: block; }
+    .site-header { height: 56px; }
+    .logo { gap: 0.45rem; }
+    .logo-img { height: 30px; max-height: 34px; }
+  }
+
+  /* Add top padding so fixed header doesn't overlap content */
+  body { padding-top: 64px; }
+  @media (max-width: 860px){ body { padding-top: 56px; } }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('pics/download.jpg') center/cover;
+    opacity: 1;
+    z-index: 0;
+    will-change: transform, filter;
+    transform-origin: center center;
+    /* use transform for GPU-accelerated parallax */
+    transform: translate3d(0,0,0) scale(1);
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    /* subtle blue-tinted overlay to blend the hero image with the blue theme */
+    background: linear-gradient(to bottom, rgba(30,144,255,0.06), rgba(30,144,255,0.10) 45%, var(--bg));
+    pointer-events: none;
+    transition: opacity 220ms linear;
+    opacity: 0.9;
+  }
+  .hero-content {
+    position: relative; z-index: 3;
+    text-align: center; padding: 0 1.5rem;
+  }
+  .hero-sub {
+    font-family: 'MedievalSharp', cursive;
+    color: rgba(247, 247, 247, 0.829);
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 400;
+    line-height: 1.1;
+    animation: runeGlow 4s ease-in-out infinite;
+    /* ensure the glow is visible by using the accent color and a baseline text-shadow */
+    color: rgba(250, 247, 247, 0.829);
+    text-shadow: 0 0 10px rgba(247, 248, 250, 0.28), 0 0 30px rgba(30,144,255,0.12);
+  }
+  .hero-date {
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+    color: rgba(247, 247, 247, 0.829);
+  }
+  .hero-location {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(247, 247, 247, 0.829);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .scroll-arrow {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+    color: rgba(75, 174, 255, 0.5);
+  }
+
+  /* ── Countdown ── */
+  .countdown-section {
+    padding: 5rem 1.5rem;
+    text-align: center;
+  }
+  .countdown-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .countdown-heading {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+  }
+  .countdown-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .countdown-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .countdown-num-wrap {
+    width: 5.5rem; height: 5.5rem;
+    border-radius: 0.5rem;
+    background: var(--card);
+    border: 1px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(30,144,255,0.08);
+  }
+  .countdown-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    animation: flicker 3s ease-in-out infinite;
+  }
+  .countdown-unit {
+    margin-top: 0.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── Rune Divider ── */
+  .rune-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2.5rem 0;
+  }
+  .rune-line {
+    height: 1px;
+    width: 4rem;
+    background: var(--gold-dim);
+  }
+  .rune-chars {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+    animation: runeGlow 4s ease-in-out infinite;
+    user-select: none;
+  }
+
+  /* ── Details ── */
+  .details-section {
+    padding: 4rem 1.5rem;
+    max-width: 40rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .details-heading {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+  .details-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 0 40px rgba(30,144,255,0.04);
+  }
+  .detail-group { margin-bottom: 1.5rem; }
+  .detail-group:last-child { margin-bottom: 0; }
+  .detail-label {
+    color: var(--gold);
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .detail-value { font-size: 1.2rem; }
+  .detail-sub { color: var(--muted); margin-top: 0.25rem; font-size: 0.95rem; }
+  .detail-desc { color: var(--muted); line-height: 1.7; font-size: 0.95rem; }
+  .detail-hr {
+    height: 1px;
+    background: var(--border);
+    border: none;
+    margin: 1.5rem 0;
+  }
+
+  /* ── Camera Section ── */
+  .camera-section {
+    padding: 5rem 1.5rem;
+    max-width: 40rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .camera-section .details-heading { margin-bottom: 0.75rem; }
+  .camera-intro {
+    color: var(--muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  #camera-preview {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border: 1px solid var(--gold-dim);
+    border-radius: 0.5rem;
+    display: none;
+    background: #eef6ff;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 0 30px rgba(30,144,255,0.06);
+  }
+  /* Only hide the offscreen camera capture canvas; keep the particle canvas visible */
+  canvas#canvas-el { display: none; }
+  .camera-controls {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.35rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid var(--gold-dim);
+    background: var(--card);
+    color: var(--gold);
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover {
+    background: rgba(30,144,255,0.08);
+    border-color: var(--gold);
+    box-shadow: 0 0 16px rgba(30,144,255,0.14);
+  }
+  .btn-primary {
+    background: rgba(30,144,255,0.12);
+    border-color: var(--gold);
+  }
+  .btn-primary:hover { background: rgba(30,144,255,0.22); }
+  #cam-status {
+    margin-top: 1.25rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    min-height: 1.2em;
+    text-transform: uppercase;
+  }
+
+  /* ── Gallery Section ── */
+  .gallery-section {
+    padding: 5rem 1.5rem;
+    max-width: 64rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .gallery-section .details-heading { margin-bottom: 0.75rem; }
+  .gallery-intro {
+    color: var(--muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 2.5rem;
+  }
+  #gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 0.75rem;
+  }
+  .gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 0.4rem;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    background: var(--card);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .gallery-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(30,144,255,0.12);
+  }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s;
+  }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-empty {
+    grid-column: 1 / -1;
+    padding: 4rem 1rem;
+    border: 1px dashed var(--border);
+    border-radius: 0.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    line-height: 2.2;
+  }
+
+  /* ── Lightbox ── */
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(2,12,23,0.85);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 90vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border: 1px solid var(--gold-dim);
+    border-radius: 0.35rem;
+    box-shadow: 0 0 60px rgba(30,144,255,0.10);
+  }
+  #lightbox-close {
+    position: fixed;
+    top: 1.25rem; right: 1.5rem;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--muted);
+    background: none;
+    border: none;
+    font-family: sans-serif;
+    transition: color 0.2s;
+  }
+  #lightbox-close:hover { color: var(--gold); }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 4rem 1.5rem;
+    text-align: center;
+  }
+  .footer-runes {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 2.5rem;
+    animation: runeGlow 4s ease-in-out infinite;
+    user-select: none;
+  }
+  .footer-text {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ── Animations ── */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+  }
+  @keyframes runeGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(30,144,255,0.28), 0 0 30px rgba(30,144,255,0.12); }
+    50% { text-shadow: 0 0 20px rgba(30,144,255,0.5), 0 0 50px rgba(30,144,255,0.24); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .countdown-num-wrap { width: 4.5rem; height: 4.5rem; }
+    .countdown-num { font-size: 1.5rem; }
+    #gallery-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  }
+  /* Particle canvas (glowing theme-matching particles) */
+  /* ── RSVP styles ── */
+  .rsvp-section {
+    padding: 3.25rem 1.5rem;
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .rsvp-heading {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    margin-bottom: 1rem;
+  }
+  .rsvp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    padding: 1.25rem;
+    box-shadow: 0 0 30px rgba(30,144,255,0.04);
+    text-align: left;
+  }
+  .rsvp-row { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; }
+  .rsvp-row .col { flex: 1; }
+  .rsvp-label { font-size: 0.7rem; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.25rem; text-transform: uppercase; }
+  .rsvp-input, .rsvp-textarea, .rsvp-select {
+    width: 100%; padding: 0.6rem 0.75rem; border-radius: 0.35rem; border: 1px solid var(--border); background: var(--card); color: var(--fg); font-family: inherit;
+  }
+  .rsvp-textarea { min-height: 92px; resize: vertical; }
+  .rsvp-actions { display:flex; gap:0.6rem; justify-content:flex-end; margin-top:0.6rem; }
+  .rsvp-success { margin-top:0.8rem; color: var(--gold); font-weight:700; display:none; }
+  .rsvp-admin { margin-top:1rem; font-size:0.85rem; color:var(--muted); text-align:right; }
+  .rsvp-list { margin-top:1rem; max-height:300px; overflow:auto; border-top:1px dashed var(--border); padding-top:0.75rem; }
+  .rsvp-item { padding:0.5rem 0; border-bottom:1px solid rgba(0,0,0,0.02); font-size:0.9rem; }
+
+  #particle-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2; /* sits above hero-bg and pillars, below hero-content (3) */
+    mix-blend-mode: normal;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Site header / navigation -->
+  <header class="site-header" role="banner">
+    <div class="site-header-inner">
+      <div class="logo">
+        <img src="pics/logo.png" alt="Kätri &amp; Roland" class="logo-img">
+      </div>
+      <button class="nav-toggle" aria-controls="site-nav" aria-expanded="false" aria-label="Ava menüü">☰</button>
+      <nav id="site-nav" class="site-nav" role="navigation" aria-label="Põhimenüü">
+        <a href="#hero"><b>Avaleht</b></a>
+        <a href="#details"><b>Kogunemine</b></a>
+        <a href="#capture"><b>Jäädvusta</b></a>
+        <a href="#gallery"><b>Galerii</b></a>
+        <a href="#rsvp"><b>RSVP</b></a>
+      </nav>
+    </div>
+  </header>
+
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Decorative Viking pillars (purely visual) -->
+  <div class="pillar pillar-left" aria-hidden="true"></div>
+  <div class="pillar pillar-right" aria-hidden="true"></div>
+
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-sub"><b>Kaks hinge, üks saaga</b></p>
+      <h1 class="hero-title">Kätri <br> & <br> Roland</h1>
+  <p class="hero-date"><b> · august · 2026 · 16:00</b></p>
+      <p class="hero-location"><b>Asva Vikingi Küla · Saaremaa</b></p>
+    </div>
+    <div class="scroll-arrow">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Countdown -->
+  <section id="countdown" class="countdown-section">
+  <p class="countdown-label"><b>Loendus algab</b></p>
+  <h2 class="countdown-heading">KUNI ME SAAME ÜHEKS</h2>
+    <div class="countdown-grid">
+      <div class="countdown-block">
+        <div class="countdown-num-wrap"><span class="countdown-num" id="cd-days">--</span></div>
+  <span class="countdown-unit">Päevad</span>
+      </div>
+      <div class="countdown-block">
+        <div class="countdown-num-wrap"><span class="countdown-num" id="cd-hours">--</span></div>
+  <span class="countdown-unit">Tunnid</span>
+      </div>
+      <div class="countdown-block">
+        <div class="countdown-num-wrap"><span class="countdown-num" id="cd-mins">--</span></div>
+  <span class="countdown-unit">Minutid</span>
+      </div>
+      <div class="countdown-block">
+        <div class="countdown-num-wrap"><span class="countdown-num" id="cd-secs">--</span></div>
+  <span class="countdown-unit">Sekundid</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="rune-divider">
+    <span class="rune-line"></span>
+    <span class="rune-chars">ᛟ ᚹ ᛊ</span>
+    <span class="rune-line"></span>
+  </div>
+
+    <!-- RSVP Section -->
+    <section id="rsvp" class="rsvp-section">
+      <h2 class="rsvp-heading">Palun kinnita osalemine</h2>
+      <div class="rsvp-card">
+        <form id="rsvp-form">
+          <div class="rsvp-row">
+            <div class="col">
+              <label class="rsvp-label" for="rsvp-name">Nimi</label>
+              <input id="rsvp-name" name="name" class="rsvp-input" type="text" placeholder="Näiteks: Kätri" required />
+            </div>
+            <div class="col">
+              <label class="rsvp-label" for="rsvp-email">E-post</label>
+              <input id="rsvp-email" name="email" class="rsvp-input" type="email" placeholder="sisesta@epost.ee" />
+            </div>
+          </div>
+
+          <div class="rsvp-row">
+            <div class="col">
+              <label class="rsvp-label">Osaled?</label>
+              <select id="rsvp-attend" name="attend" class="rsvp-select">
+                <option value="yes">Jah — tulen</option>
+                <option value="no">Kahjuks ei saa tulla</option>
+              </select>
+            </div>
+            <div class="col">
+              <label class="rsvp-label" for="rsvp-guests">Külalised</label>
+              <input id="rsvp-guests" name="guests" class="rsvp-input" type="number" min="0" placeholder="0" />
+            </div>
+          </div>
+
+          <div>
+            <label class="rsvp-label" for="rsvp-msg">Sõnum (soovi, allergia jms)</label>
+            <textarea id="rsvp-msg" name="message" class="rsvp-textarea" placeholder="Kirjuta sõnum meile…"></textarea>
+          </div>
+
+          <div class="rsvp-actions">
+            <button type="button" id="rsvp-admin-btn" class="btn">Halda RSVP</button>
+            <button type="submit" class="btn btn-primary">Saada kinnitus</button>
+          </div>
+          <div class="rsvp-success" id="rsvp-success">Aitäh — sinu vastus on salvestatud.</div>
+        </form>
+
+        <div class="rsvp-admin" id="rsvp-admin-panel" style="display:none;">
+          <div style="display:flex;gap:0.5rem;justify-content:flex-end;align-items:center;">
+            <button id="rsvp-export" class="btn">Ekspordi CSV</button>
+            <button id="rsvp-clear" class="btn">Kustuta kõik</button>
+          </div>
+          <div class="rsvp-list" id="rsvp-list" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+  <!-- Details -->
+  <section id="details" class="details-section">
+  <h2 class="details-heading">Kogunemine</h2>
+    <div class="details-card">
+      <div class="detail-group">
+  <p class="detail-label">Millal</p>
+  <p class="detail-value">Laupäev, 8. august 2026 Kell 16:00</p>
+      </div>
+      <hr class="detail-hr" />
+      <div class="detail-group">
+  <p class="detail-label">Kus</p>
+  <p class="detail-value">Asva Vikingi küla</p>
+  <p class="detail-sub"><b>Saaremaa, Eesti</b></p>
+      </div>
+      <hr class="detail-hr" />
+      <div class="detail-group">
+        <p class="detail-label">Meeleolu</p>
+        <p class="detail-desc"><b>
+          Liituge meiega tseremoonial, mis on juurdunud muistsetes Põhjala
+          kommetes — meega, pidusöökide, tule ja kahe saatuse sidumisega avatud taeva all.</b>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="rune-divider">
+    <span class="rune-line"></span>
+    <span class="rune-chars">ᛟ ᚹ ᛊ</span>
+    <span class="rune-line"></span>
+  </div>
+
+  <!-- Camera -->
+  <section id="capture" class="camera-section">
+    <h2 class="details-heading">Jäädvusta saaga</h2>
+    <p class="camera-intro"><b>
+      Ava oma kaamera, jäädvusta hetk peolt ja see lisatakse meie ühisesse
+      mälukotta allpool — osa meie saagast igavesti.</b>
+    </p>
+
+    <video id="camera-preview" autoplay playsinline muted></video>
+    <canvas id="canvas-el"></canvas>
+
+    <div class="camera-controls">
+  <button class="btn btn-primary" id="btn-open-cam">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+  Ava kaamera
+      </button>
+  <button class="btn btn-primary" id="btn-snap" style="display:none">
+        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4"/>
+        </svg>
+  Pildista
+      </button>
+  <button class="btn" id="btn-upload">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+  Laadi foto üles
+      </button>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" style="display:none">
+    <p id="cam-status"></p>
+  </section>
+
+  <!-- Divider -->
+  <div class="rune-divider">
+    <span class="rune-line"></span>
+    <span class="rune-chars">ᛟ ᚹ ᛊ</span>
+    <span class="rune-line"></span>
+  </div>
+
+  <!-- Gallery -->
+  <section id="gallery" class="gallery-section">
+  <h2 class="details-heading">Galerii</h2>
+  <p class="gallery-intro"><b>Iga jäädvustatud hetk elab siin — meie ühine saaga, jutustatud piltides.</b></p>
+    <div id="gallery-grid">
+      <div class="gallery-empty">
+        Mälestusi veel pole.<br>
+        <em>Ole esimene, kes jäädvustab hetke.</em>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox">
+    <button id="lightbox-close" title="Sule">✕</button>
+    <img id="lightbox-img" src="" alt="Mälestus">
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <p class="footer-runes">ᛗ ᚨ ᚱ ᚱ ᛁ ᚨ ᚷ ᛖ</p>
+    <p class="footer-text"><b>Skál! Kohtume Saaremaal</b></p>
+  </footer>
+
+  <script>
+    /* ── Config ── */
+    const CLOUD_NAME    = 'dvsuop5nr';
+    const UPLOAD_PRESET = 'katriroland';
+    // Firebase Realtime DB (free) — stores the shared list of photo URLs.
+    // Go to firebase.google.com → create project → Realtime Database → start in test mode
+    // Then replace this URL with yours (format: https://YOUR-PROJECT.firebaseio.com/photos.json)
+    const DB_URL = 'https://katriroland-default-rtdb.europe-west1.firebasedatabase.app/photos.json';
+
+    /* ── Countdown ── */
+    const target = new Date("2026-08-08T14:00:00").getTime();
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tick() {
+      const diff = Math.max(0, target - Date.now());
+      document.getElementById("cd-days").textContent  = pad(Math.floor(diff / 86400000));
+      document.getElementById("cd-hours").textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById("cd-mins").textContent  = pad(Math.floor((diff % 3600000) / 60000));
+      document.getElementById("cd-secs").textContent  = pad(Math.floor((diff % 60000) / 1000));
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    /* ── Gallery state ── */
+    let photos = [];
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      if (photos.length === 0) {
+        grid.innerHTML = '<div class="gallery-empty">No memories yet.<br><em>Be the first to capture a moment.</em></div>';
+        return;
+      }
+      const sorted = [...photos].sort((a, b) => (b.ts || 0) - (a.ts || 0));
+      grid.innerHTML = sorted.map((p, i) =>
+        `<div class="gallery-item" onclick="openLightboxUrl('${p.url}')">
+          <img src="${p.url}" alt="Mälestus ${i + 1}" loading="lazy">
+        </div>`
+      ).join('');
+    }
+
+    function setStatus(msg) {
+      const el = document.getElementById('cam-status');
+      el.textContent = msg;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => { el.textContent = ''; }, 4000);
+    }
+
+    /* ── Fetch shared gallery from Firebase ── */
+    async function fetchGallery() {
+      try {
+        const res = await fetch(DB_URL);
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            photos = Object.values(data).filter(p => p && p.url);
+            renderGallery();
+          } else {
+            renderGallery();
+          }
+        }
+      } catch(e) {
+        renderGallery();
+      }
+    }
+
+    /* ── Save photo URL to Firebase ── */
+    async function saveToDb(url) {
+      try {
+        await fetch(DB_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, ts: Date.now() })
+        });
+      } catch(e) {
+        console.warn('Could not save to shared DB', e);
+      }
+    }
+
+    /* ── Upload to Cloudinary then save URL to Firebase ── */
+    async function uploadPhoto(blob) {
+    setStatus('⚔ Laadimine mälukotta…');
+      const fd = new FormData();
+      fd.append('file', blob);
+      fd.append('upload_preset', UPLOAD_PRESET);
+
+      try {
+        const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.secure_url) {
+          await saveToDb(data.secure_url);
+          await fetchGallery();
+          setStatus('✓ Mälestus salvestatud — kõik külalised näevad seda nüüd!');
+          setTimeout(() => document.querySelector('.gallery-section').scrollIntoView({ behavior: 'smooth' }), 500);
+        } else {
+          setStatus('Üleslaadimine ebaõnnestus — palun proovi uuesti');
+        }
+      } catch(e) {
+  setStatus('Üleslaadimine ebaõnnestus — kontrolli ühendust');
+      }
+    }
+
+    /* ── Lightbox ── */
+    function openLightboxUrl(url) {
+      document.getElementById('lightbox-img').src = url;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    document.getElementById('lightbox-close').onclick = () =>
+      document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox').onclick = function(e) {
+      if (e.target === this) this.classList.remove('open');
+    };
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+    });
+
+    /* ── Camera ── */
+    let stream = null;
+    const video   = document.getElementById('camera-preview');
+    const canvas  = document.getElementById('canvas-el');
+    const btnOpen = document.getElementById('btn-open-cam');
+    const btnSnap = document.getElementById('btn-snap');
+    const fileIn  = document.getElementById('file-input');
+
+    const iconCamera = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`;
+    const iconClose  = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+
+      btnOpen.onclick = async () => {
+        if (stream) {
+          stream.getTracks().forEach(t => t.stop());
+          stream = null;
+          video.style.display = 'none';
+          btnSnap.style.display = 'none';
+          btnOpen.innerHTML = iconCamera + ' Ava kaamera';
+          setStatus('');
+          return;
+        }
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+          video.srcObject = stream;
+          video.style.display = 'block';
+          btnSnap.style.display = 'inline-flex';
+          btnOpen.innerHTML = iconClose + ' Sulge kaamera';
+          setStatus('Kaamera valmis — sihi ja jäädvusta hetk');
+        } catch(e) {
+          setStatus('Kaamera juurdepääs keelatud — proovi selle asemel foto üles laadida');
+        }
+      };
+
+    btnSnap.onclick = () => {
+      if (!stream) return;
+      canvas.width  = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      canvas.toBlob(blob => uploadPhoto(blob), 'image/jpeg', 0.88);
+    };
+
+    document.getElementById('btn-upload').onclick = () => fileIn.click();
+
+    fileIn.onchange = function() {
+      const file = this.files[0];
+      if (!file) return;
+      uploadPhoto(file);
+      this.value = '';
+    };
+
+    /* ── Init: load gallery + auto-refresh every 15s ── */
+    fetchGallery();
+    setInterval(fetchGallery, 15000);
+
+    /* ── Particle background: subtle glowing theme-matching particles ── */
+    (function(){
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let dpr = window.devicePixelRatio || 1;
+      let w = 0, h = 0;
+
+      function getThemeColor(varName, fallback){
+        const v = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        return v || fallback;
+      }
+
+  // use black/dark particles (override theme accent)
+  const accent = '#000000';
+
+      function resize(){
+        dpr = window.devicePixelRatio || 1;
+        w = Math.max(1, window.innerWidth || 1);
+        h = Math.max(1, window.innerHeight || 1);
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+
+      // particle pool
+      let particles = [];
+      function createParticle(){
+        // slightly more visible particles for better visibility while keeping subtle
+        const size = 0.8 + Math.random() * 1.6;
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * (0.06 + Math.random() * 0.45),
+          vy: (Math.random() - 0.5) * (0.04 + Math.random() * 0.28),
+          size,
+          life: 14 + Math.random() * 50,
+          age: Math.random() * 24,
+          alpha: 0.10 + Math.random() * 0.26
+        };
+      }
+
+      function initParticles(){
+        particles = [];
+        // modest particle count for subtlety but visible across viewport
+        const count = Math.max(20, Math.min(120, Math.round((w + h) / 80)));
+        for (let i = 0; i < count; i++) particles.push(createParticle());
+      }
+      initParticles();
+
+      // helper: convert hex or rgb CSS value to rgba string with alpha
+      function cssToRgba(css, a){
+        if (!css) return `rgba(30,144,255,${a})`;
+        css = css.trim();
+        if (css.startsWith('rgba')){
+          // replace alpha
+          return css.replace(/rgba\(([^,]+),([^,]+),([^,]+),[^)]+\)/, `rgba($1,$2,$3,${a})`);
+        }
+        if (css.startsWith('rgb(')){
+          return css.replace('rgb(', 'rgba(').replace(')', `,${a})`);
+        }
+        if (css.startsWith('#')){
+          let c = css.substring(1);
+          if (c.length === 3) c = c.split('').map(ch => ch + ch).join('');
+          const num = parseInt(c, 16);
+          const r = (num >> 16) & 255;
+          const g = (num >> 8) & 255;
+          const b = num & 255;
+          return `rgba(${r},${g},${b},${a})`;
+        }
+        return css;
+      }
+
+      let last = performance.now();
+      function step(now){
+        const dt = Math.min(40, now - last) / 1000; last = now;
+  ctx.clearRect(0,0,w,h);
+  // draw dark particles normally (source-over) so they appear as black marks
+  ctx.globalCompositeOperation = 'source-over';
+        const debug = !!window.__particleDebug;
+        for (let i = 0; i < particles.length; i++){
+          const p = particles[i];
+          p.x += p.vx * 60 * dt;
+          p.y += p.vy * 60 * dt;
+          p.age += dt;
+          // respawn if out of bounds or too old
+          if (p.x < -60 || p.x > w + 60 || p.y < -60 || p.y > h + 60 || p.age > p.life){
+            // respawn at random edge
+            const side = Math.floor(Math.random() * 4);
+            if (side === 0){ p.x = -10; p.y = Math.random() * h; p.vx = 0.06 + Math.random() * 0.45; p.vy = (Math.random() - 0.5) * 0.28; }
+            else if (side === 1){ p.x = w + 10; p.y = Math.random() * h; p.vx = -0.06 - Math.random() * 0.45; p.vy = (Math.random() - 0.5) * 0.28; }
+            else if (side === 2){ p.x = Math.random() * w; p.y = -10; p.vy = 0.04 + Math.random() * 0.28; p.vx = (Math.random() - 0.5) * 0.28; }
+            else { p.x = Math.random() * w; p.y = h + 10; p.vy = -0.04 - Math.random() * 0.28; p.vx = (Math.random() - 0.5) * 0.28; }
+            p.size = 0.8 + Math.random() * 1.6; p.age = 0; p.life = 14 + Math.random() * 50; p.alpha = 0.10 + Math.random() * 0.26;
+          }
+
+          // draw glow using radial gradient
+          const drawSize = p.size * (debug ? 1.8 : 1);
+          const drawAlpha = Math.min(1, p.alpha * (debug ? 2.2 : 1));
+          const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, drawSize * 8);
+          grd.addColorStop(0, cssToRgba(accent, drawAlpha));
+          grd.addColorStop(0.18, cssToRgba(accent, drawAlpha * 0.5));
+          grd.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = grd;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+        }
+        requestAnimationFrame(step);
+      }
+
+      // respect reduced-motion: animate continuously for users who allow motion,
+      // but still render a single subtle frame for users who prefer reduced motion
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        // draw one frame so the canvas is not empty for reduced-motion users
+        step(performance.now());
+      } else {
+        requestAnimationFrame(step);
+      }
+
+      // reinit on resize to recalc counts
+      window.addEventListener('resize', () => { resize(); initParticles(); }, { passive: true });
+      // debug toggle: press 'p' to temporarily boost visibility and z-index (useful for troubleshooting)
+      window.__particleDebug = false;
+      window.addEventListener('keydown', (e) => {
+        if (e.key && e.key.toLowerCase() === 'p'){
+          window.__particleDebug = !window.__particleDebug;
+          const c = document.getElementById('particle-canvas');
+          if (c) c.style.zIndex = window.__particleDebug ? 4 : 2;
+        }
+      });
+    })();
+
+    /* ── Hero parallax: smoother translate/scale background and eased overlay strength on scroll ── */
+    (function(){
+      const hero = document.querySelector('.hero');
+      const heroBg = document.querySelector('.hero-bg');
+      const overlay = document.querySelector('.hero-overlay');
+      if (!hero || !heroBg || !overlay) return;
+
+      // store the latest scroll position (updated by the scroll handler)
+      let scrollY = window.scrollY || window.pageYOffset || 0;
+      window.addEventListener('scroll', () => { scrollY = window.scrollY || window.pageYOffset || 0; }, { passive: true });
+
+      // current rendered values (we'll lerp towards targets for smooth motion)
+      const state = { offset: 0, scale: 1, overlay: parseFloat(getComputedStyle(overlay).opacity) || 0.9 };
+
+      function lerp(a, b, t){ return a + (b - a) * t; }
+
+      function frame(){
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const maxOffset = Math.round(Math.min(80, vh * 0.12));
+        const targetOffset = Math.max(-maxOffset, Math.min(maxOffset, scrollY * 0.15));
+
+        const maxScale = 1.06;
+        const targetScale = 1 + Math.min(maxScale - 1, scrollY / (vh * 10));
+
+        const minOverlay = 0.6;
+        const targetOverlay = Math.max(minOverlay, Math.min(1, 0.75 + scrollY / (vh * 1.6)));
+
+        // smoothing factor: closer to 0 = smoother (slower); closer to 1 = snappier
+        const smooth = 0.12;
+        state.offset = lerp(state.offset, targetOffset, smooth);
+        state.scale  = lerp(state.scale, targetScale, smooth);
+        state.overlay = lerp(state.overlay, targetOverlay, smooth);
+
+        heroBg.style.transform = `translate3d(0,${state.offset.toFixed(2)}px,0) scale(${state.scale.toFixed(4)})`;
+        overlay.style.opacity = state.overlay.toFixed(3);
+
+        requestAnimationFrame(frame);
+      }
+
+      // restart frame loop on resize to immediately recalc sizes
+      window.addEventListener('resize', () => { /* no-op, frame() reads sizes each tick */ }, { passive: true });
+      requestAnimationFrame(frame);
+    })();
+
+    // Mobile nav toggle
+    (function(){
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('site-nav');
+      if (!toggle || !nav) return;
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        nav.style.display = expanded ? 'none' : 'flex';
+      });
+      // hide nav on link click (mobile)
+      Array.from(nav.querySelectorAll('a')).forEach(a => a.addEventListener('click', () => {
+        if (window.innerWidth <= 860) {
+          nav.style.display = 'none';
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      }));
+      // ensure layout resets on resize
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 860) {
+          nav.style.display = '';
+          toggle.setAttribute('aria-expanded', 'false');
+        } else {
+          nav.style.display = 'none';
+        }
+      }, { passive: true });
+    })();
+    /* ── RSVP logic ── */
+    (function(){
+      const STORAGE_KEY = 'katri_rsvps_v1';
+      // If you want RSVPs saved to a remote DB, set this to your Realtime DB endpoint
+      // e.g. 'https://YOUR-PROJECT.firebaseio.com/rsvps.json'
+      const RSVP_DB_URL = '';
+
+      function loadLocal(){
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+        catch(e){ return []; }
+      }
+      function saveLocal(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list || [])); }
+
+      function renderAdminList(){
+        const listEl = document.getElementById('rsvp-list');
+        const data = loadLocal();
+        if (!listEl) return;
+        if (!data.length) { listEl.innerHTML = '<div class="rsvp-item">Ühtegi vastust pole.</div>'; return; }
+        listEl.innerHTML = data.map(r => {
+          const time = r.ts ? new Date(r.ts).toLocaleString() : '';
+          return `<div class="rsvp-item"><strong>${escapeHtml(r.name)}</strong> — ${escapeHtml(r.attend)} — ${escapeHtml(String(r.guests||'0'))} külalist<br><small style="color:${getComputedStyle(document.documentElement).getPropertyValue('--muted')}">${escapeHtml(r.email||'')} ${time ? '· ' + escapeHtml(time) : ''}</small><div style="margin-top:0.25rem;color:var(--muted);">${escapeHtml(r.message||'')}</div></div>`;
+        }).join('');
+      }
+
+      function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+
+      async function maybeSaveRemote(payload){
+        if (!RSVP_DB_URL) return;
+        try {
+          await fetch(RSVP_DB_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+        } catch(e){ console.warn('RSVP: remote save failed', e); }
+      }
+
+      const form = document.getElementById('rsvp-form');
+      const successEl = document.getElementById('rsvp-success');
+      const adminBtn = document.getElementById('rsvp-admin-btn');
+      const adminPanel = document.getElementById('rsvp-admin-panel');
+      const exportBtn = document.getElementById('rsvp-export');
+      const clearBtn = document.getElementById('rsvp-clear');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('rsvp-name').value || '').trim();
+        const email = (document.getElementById('rsvp-email').value || '').trim();
+        const attend = document.getElementById('rsvp-attend').value;
+        const guests = parseInt(document.getElementById('rsvp-guests').value || '0', 10) || 0;
+        const message = (document.getElementById('rsvp-msg').value || '').trim();
+        if (!name) { alert('Palun sisesta oma nimi.'); return; }
+
+        const payload = { name, email, attend, guests, message, ts: Date.now() };
+        const list = loadLocal();
+        list.push(payload);
+        saveLocal(list);
+        // attempt remote save (if configured)
+        maybeSaveRemote(payload);
+
+        // show success, reset small inputs but keep name for convenience
+        successEl.style.display = 'block';
+        setTimeout(() => successEl.style.display = 'none', 4500);
+        document.getElementById('rsvp-attend').value = 'yes';
+        document.getElementById('rsvp-guests').value = '';
+        document.getElementById('rsvp-msg').value = '';
+
+        renderAdminList();
+      });
+
+      // Admin: prompt for passcode to show admin panel. Default passcode shown in console for convenience.
+      adminBtn.addEventListener('click', () => {
+        const code = prompt('Sisesta halduskood, et vaadata RSVP-sid: (küsi korraldajalt)');
+        if (!code) return;
+        // simple local check — if you want strong auth, wire to server-side
+        if (code === 'katri-admin') {
+          sessionStorage.setItem('katri_admin_auth', '1');
+          adminPanel.style.display = 'block';
+          renderAdminList();
+        } else {
+          alert('Vale kood');
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const rows = loadLocal();
+        if (!rows.length) return alert('RSVP-d puuduvad');
+        const cols = ['name','email','attend','guests','message','ts'];
+        const csv = [cols.join(',')].concat(rows.map(r => cols.map(c => '"' + String(r[c]||'').replace(/"/g,'""') + '"').join(','))).join('\n');
+        const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'rsvps.csv'; document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      clearBtn.addEventListener('click', () => {
+        // require admin re-authentication before destructive actions
+        const isAuth = sessionStorage.getItem('katri_admin_auth') === '1';
+        if (!isAuth) {
+          const code = prompt('Sisesta halduskood, et kustutada RSVP-d:');
+          if (!code || code !== 'katri-admin') { alert('Autentimine ebaõnnestus'); return; }
+          sessionStorage.setItem('katri_admin_auth', '1');
+        }
+        if (!confirm('Kas oled kindel, et soovid kõik RSVP-sid kustutada? See ei ole pöörduv.')) return;
+        saveLocal([]);
+        renderAdminList();
+      });
+
+  // initial render (in case there are existing RSVPs)
+  renderAdminList();
+  // expose helper for debugging (kept private-ish)
+  window.__katri_rsvp = { loadLocal, saveLocal };
+    })();
+    
+  </script>
+</body>
+</html>

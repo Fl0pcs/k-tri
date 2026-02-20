@@ -675,7 +675,6 @@
           </div>
 
           <div class="rsvp-actions">
-            <button type="button" id="rsvp-admin-btn" class="btn">Halda RSVP</button>
             <button type="submit" class="btn btn-primary">Saada kinnitus</button>
           </div>
           <div class="rsvp-success" id="rsvp-success">Aitäh — sinu vastus on salvestatud.</div>
@@ -1176,6 +1175,8 @@
   const successEl = document.getElementById('rsvp-success');
   const adminBtn = document.getElementById('rsvp-admin-btn');
   const adminPanel = document.getElementById('rsvp-admin-panel');
+  const exportBtn = document.getElementById('rsvp-export');
+  const clearBtn = document.getElementById('rsvp-clear');
 
   function escapeHtml(s){
     return String(s||'').replace(/[&<>"']/g, c =>
@@ -1226,38 +1227,19 @@
     });
   }
 
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      alert('Eksport pole veel saadaval.');
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      alert('Kustutamine pole veel saadaval.');
+    });
+  }
+
 })();
-
-
-      exportBtn.addEventListener('click', () => {
-        const rows = loadLocal();
-        if (!rows.length) return alert('RSVP-d puuduvad');
-        const cols = ['name','email','attend','guests','message','ts'];
-        const csv = [cols.join(',')].concat(rows.map(r => cols.map(c => '"' + String(r[c]||'').replace(/"/g,'""') + '"').join(','))).join('\n');
-        const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'rsvps.csv'; document.body.appendChild(a); a.click(); a.remove();
-        URL.revokeObjectURL(url);
-      });
-
-      clearBtn.addEventListener('click', () => {
-        // require admin re-authentication before destructive actions
-        const isAuth = sessionStorage.getItem('katri_admin_auth') === '1';
-        if (!isAuth) {
-          const code = prompt('Sisesta halduskood, et kustutada RSVP-d:');
-          if (!code || code !== 'katri-admin') { alert('Autentimine ebaõnnestus'); return; }
-          sessionStorage.setItem('katri_admin_auth', '1');
-        }
-        if (!confirm('Kas oled kindel, et soovid kõik RSVP-sid kustutada? See ei ole pöörduv.')) return;
-        saveLocal([]);
-        renderAdminList();
-      });
-
-  // initial render (in case there are existing RSVPs)
-  renderAdminList();
-  // expose helper for debugging (kept private-ish)
-  window.__katri_rsvp = { loadLocal, saveLocal };
-    })();
     
   </script>
 </body>

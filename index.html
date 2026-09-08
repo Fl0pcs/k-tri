@@ -758,7 +758,7 @@
       </button>
     </div>
 
-    <input type="file" id="file-input" accept="image/*" multiple style="display:none">
+    <input type="file" id="file-input" accept="image/*" style="display:none">
     <p id="cam-status"></p>
   </section>
 
@@ -950,17 +950,10 @@
 
     document.getElementById('btn-upload').onclick = () => fileIn.click();
 
-    fileIn.onchange = async function() {
-      const files = Array.from(this.files);
-
-      if (!files.length) return;
-
-      setStatus(`⚔ Laen ${files.length} pilti mälukotta…`);
-
-      for (const file of files) {
-        await uploadPhoto(file);
-      }
-
+    fileIn.onchange = function() {
+      const file = this.files[0];
+      if (!file) return;
+      uploadPhoto(file);
       this.value = '';
     };
 
